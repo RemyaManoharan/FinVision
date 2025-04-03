@@ -3,6 +3,7 @@ import "./App.css";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Features from "./pages/FeaturesPage";
+import SignUpPage from "./pages/SignUpPage";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
             <Route path="/features" element={<Features />} />
+            <Route path="/signup" element={<SignUpPage />} />
             {/* Add other routes that should include the Layout here */}
           </Route>
         </Routes>
