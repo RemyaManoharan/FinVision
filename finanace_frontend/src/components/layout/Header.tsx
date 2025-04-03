@@ -1,4 +1,4 @@
-import React from "react";
+import { Link } from "react-router-dom";
 import finlogo from "../../assets/finlogo.svg";
 
 const Header = () => {
@@ -11,8 +11,12 @@ const Header = () => {
       </div>
       {!isAuthenticatedUser ? (
         <div className="flex gap-4">
-          <button className="btn btn-outline">Login</button>
-          <button className="btn btn-primary">Sign up</button>
+          <Link to="/login" className="btn btn-outline">
+            Login
+          </Link>
+          <Link to="/signup" className="btn btn-primary">
+            Sign up
+          </Link>
         </div>
       ) : (
         <div className="flex items-center">
