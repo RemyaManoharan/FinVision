@@ -1,12 +1,18 @@
-import './App.css'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Layout from "./components/layout/Layout";
 
 function App() {
   return (
-    <div className="App">
-      <h1>hello</h1>
+    <div>
+      <Router>
+        <Routes>
+          {/* Public Routes */}
+          <Route path="/" element={<Layout />}></Route>
+        </Routes>
+      </Router>
     </div>
-   
-  )
+  );
 }
 
-export default App
+export default App;

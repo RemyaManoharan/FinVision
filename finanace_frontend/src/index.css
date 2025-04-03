@@ -1,1 +1,127 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --color-primary: 59 130 246; /* blue-500 */
+    --color-primary-dark: 37 99 235; /* blue-600 */
+    --color-secondary: 99 102 241; /* indigo-500 */
+    --color-accent: 139 92 246; /* violet-500 */
+    --color-background: 10 15 30; /* dark blue-black */
+    --color-foreground: 248 250 252; /* slate-50 */
+    --color-card: 17 24 39; /* gray-900 */
+    --color-card-hover: 31 41 55; /* gray-800 */
+    --color-muted: 148 163 184; /* slate-400 */
+    --color-border: 71 85 105; /* slate-600 */
+    
+    /* Gradients for the geometric shapes like in first image */
+    --gradient-blue: linear-gradient(45deg, rgba(37, 99, 235, 0.7), rgba(59, 130, 246, 0.2));
+    --gradient-accent: linear-gradient(135deg, rgba(139, 92, 246, 0.6), rgba(99, 102, 241, 0.2));
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-[rgb(var(--color-background))] text-[rgb(var(--color-foreground))];
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-medium tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+  
+  p {
+    @apply text-[rgb(var(--color-muted))];
+  }
+
+  a {
+    @apply text-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-primary-dark))] transition-colors;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors 
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-[0.5];
+  }
+
+  .btn-primary {
+    @apply bg-[rgb(var(--color-primary))] text-white hover:bg-[rgb(var(--color-primary-dark))];
+  }
+
+  .btn-secondary {
+    @apply bg-[rgb(var(--color-secondary))] text-white hover:bg-[rgb(var(--color-secondary))/0.8];
+  }
+
+  .btn-outline {
+    @apply border border-[rgb(var(--color-border))] hover:bg-[rgb(var(--color-card-hover))] hover:text-[rgb(var(--color-foreground))];
+  }
+
+  .card {
+    @apply rounded-lg bg-[rgb(var(--color-card))] p-6 shadow-lg border border-[rgb(var(--color-border))];
+  }
+  
+  .nav-link {
+    @apply px-4 py-2 text-[rgb(var(--color-muted))] hover:text-[rgb(var(--color-foreground))] transition-colors;
+  }
+  
+  /* Styling for the geometric background elements */
+  .geometric-shape {
+    @apply absolute pointer-events-none opacity-[0.4];
+    filter: blur(5px);
+    z-index: -10;
+  }
+  
+  .geometric-triangle {
+    background: var(--gradient-blue);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  }
+  
+  .geometric-diamond {
+    background: var(--gradient-accent);
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  }
+}
+
+/* Dashboard specific styles for FinVision */
+@layer utilities {
+  .dashboard-grid {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6;
+  }
+  
+  .stat-card {
+    @apply flex flex-col p-6 rounded-lg bg-[rgb(var(--color-card))] border border-[rgb(var(--color-border))];
+  }
+  
+  .stat-value {
+    @apply text-2xl font-bold;
+  }
+  
+  .stat-label {
+    @apply text-[rgb(var(--color-muted))] text-sm;
+  }
+  
+  /* For fancy chart backgrounds */
+  .chart-gradient {
+    @apply relative overflow-hidden;
+  }
+  
+  .chart-gradient::before {
+    @apply absolute inset-0 rounded-lg opacity-[0.2];
+    content: '';
+    background: var(--gradient-blue);
+    z-index: 0;
+  }
+}
