@@ -11,6 +11,9 @@ const Header = () => {
       </div>
       {!isAuthenticatedUser ? (
         <div className="flex gap-4">
+          <Link to="/" className="btn btn-outline">
+            Home
+          </Link>
           <Link to="/login" className="btn btn-outline">
             Login
           </Link>

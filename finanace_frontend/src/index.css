@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
 
 @layer base {
   :root {
@@ -110,6 +110,7 @@
     background: var(--gradient-accent);
     clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
   }
+
   .form-input {
     @apply w-full p-3 bg-[rgb(var(--color-card-hover))] border border-[rgb(var(--color-border))] 
     rounded-md focus:outline-none focus:ring-2 focus:ring-[rgb(var(--color-primary))] 
