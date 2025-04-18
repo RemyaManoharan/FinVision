@@ -4,8 +4,11 @@ import helmet from 'helmet';
 import dotenv from 'dotenv';
 
 // Load environment variables
-dotenv.config();
 
+
+import apiRoutes from './routes';
+import { errorHandler, notFound } from './middleware';
+dotenv.config();
 // Initialize express app
 const app: Application = express();
 const PORT = process.env.PORT || 5000;
@@ -25,7 +28,7 @@ app.get('/', (req: Request, res: Response) => {
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'ok', message: 'Server is running' });
 });
-
+app.use('/api', apiRoutes);
 // 404 handler
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: 'Route not found' });
