@@ -8,6 +8,7 @@ import Dashboard from "./components/Dashboard";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import AuthProvider from "react-auth-kit/AuthProvider";
 import createStore from "react-auth-kit/createStore";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 const store = createStore({
   authName: "_auth",
@@ -30,7 +31,15 @@ function App() {
               <Route path="/features" element={<Features />} />
               <Route path="/signup" element={<SignUpPage />} />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/dashboard/{user_id}" element={<Dashboard />} />
+              {/* Protected Routes */}
+              <Route
+                path="/dashboard"
+                element={
+                  <ProtectedRoute>
+                    <Dashboard />
+                  </ProtectedRoute>
+                }
+              />
               {/* Add other routes that should include the Layout here */}
             </Route>
           </Routes>
