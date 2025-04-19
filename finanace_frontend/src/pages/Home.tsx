@@ -2,8 +2,17 @@ import { Link } from "react-router-dom";
 import BackgroundSVG from "../components/svg/Homebackground";
 import ChartSVG from "../components/svg/Chartsvg";
 import KeyFeatures from "../components/KeyFeatures";
+import useSignOut from "react-auth-kit/hooks/useSignOut";
+import { useEffect } from "react";
 
 const Home = () => {
+  const signOut = useSignOut();
+
+  useEffect(() => {
+    // Automatically log out when visiting the home page
+    signOut();
+  }, [signOut]);
+
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Geometric background elements */}

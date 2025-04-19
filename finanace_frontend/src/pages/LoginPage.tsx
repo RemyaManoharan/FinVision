@@ -2,8 +2,39 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginFormValues } from "../type/user";
+import { useMutation } from "@tanstack/react-query";
+import { loginUser } from "../api/auth";
+import useSignIn from "react-auth-kit/hooks/useSignIn";
+import { useState } from "react";
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
+  const signIn = useSignIn();
+  const [loginError, setLoginError] = useState(false);
+
+  const { mutate, isError } = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      if (data.token) {
+        signIn({
+          auth: {
+            token: data.token,
+            type: "Bearer",
+          },
+          userState: data.user,
+        });
+        navigate("/dashboard");
+      } else {
+        console.error("Login failed:", data.message);
+      }
+    },
+    onError: (error) => {
+      setLoginError(
+        (error as any)?.response?.data?.message || "Login failed. Try again."
+      );
+    },
+  });
+
   const LoginSchema = Yup.object().shape({
     email: Yup.string()
       .email("Invalid email address")
@@ -13,7 +44,7 @@ const LoginPage: React.FC = () => {
       .min(6, "Password must be at least 6 characters"),
   });
   const handleSubmit = (values: LoginFormValues) => {
-    console.log(values);
+    mutate(values);
   };
   return (
     <div className="mt-10 flex flex-col justify-center items-center">
@@ -25,7 +56,11 @@ const LoginPage: React.FC = () => {
         <h1 className="text-3xl font-bold text-center mb-8">
           Login to Your Account
         </h1>
-
+        {loginError && (
+          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
+            {loginError}
+          </div>
+        )}
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={LoginSchema}

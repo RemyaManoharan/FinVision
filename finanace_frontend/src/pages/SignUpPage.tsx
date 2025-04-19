@@ -2,10 +2,13 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import React from "react";
 import { SignUpFormValues } from "../type/user";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useSignIn from "react-auth-kit/hooks/useSignIn";
+import { useMutation } from "@tanstack/react-query";
+import { signUpUser } from "../api/auth";
 
 const SignUpSchema = Yup.object().shape({
-  full_name: Yup.string()
+  name: Yup.string()
     .required("First name is required")
     .min(2, "First name must be at least 2 characters")
     .max(100, "First name cannot exceed 100 characters"),
@@ -29,14 +32,46 @@ const SignUpSchema = Yup.object().shape({
 });
 
 const SignUpPage: React.FC = () => {
+  const navigate = useNavigate();
+  const signIn = useSignIn();
+
   const initialValues: SignUpFormValues = {
-    full_name: "",
+    name: "",
     email: "",
     password: "",
     phone: "",
   };
+
+  const mutation = useMutation({
+    mutationFn: signUpUser,
+    onSuccess: (data) => {
+      signIn({
+        auth: {
+          token: data.token,
+          type: "Bearer",
+        },
+        userState: {
+          id: data.user.user_id,
+          name: data.user.name,
+          email: data.user.email,
+          phone_number: data.user.phone_number,
+        },
+      });
+      console.log("User registered", data);
+      navigate("/dashboard");
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: any) => {
+      console.error(
+        "Sign-up error:",
+        error.response?.data?.message || error.message
+      );
+      alert("Sign-up failed. Please try again.");
+    },
+  });
   const handleSubmit = (values: SignUpFormValues) => {
-    console.log(values);
+    console.log("Form values:", values);
+    mutation.mutate(values);
   };
 
   return (
@@ -44,10 +79,12 @@ const SignUpPage: React.FC = () => {
       {/* Geometric Shapes for Background Effect */}
       <div className="geometric-shape geometric-triangle w-64 h-64 top-16 -left-32 rotate-12"></div>
       <div className="geometric-shape geometric-diamond w-80 h-80 bottom-16 -right-40"></div>
-      
+
       <div className="card w-full max-w-md z-10">
-        <h1 className="text-3xl font-bold text-center mb-8">Sign up with email</h1>
-        
+        <h1 className="text-3xl font-bold text-center mb-8">
+          Sign up with email
+        </h1>
+
         <Formik
           initialValues={initialValues}
           validationSchema={SignUpSchema}
@@ -57,18 +94,18 @@ const SignUpPage: React.FC = () => {
             <div className="space-y-4">
               <div>
                 <Field
-                  name="full_name"
+                  name="name"
                   type="text"
                   placeholder="Full Name"
                   className="form-input"
                 />
                 <ErrorMessage
-                  name="full_name"
+                  name="name"
                   component="div"
                   className="form-error"
                 />
               </div>
-              
+
               <div>
                 <Field
                   name="phone"
@@ -82,7 +119,7 @@ const SignUpPage: React.FC = () => {
                   className="form-error"
                 />
               </div>
-              
+
               <div>
                 <Field
                   name="email"
@@ -96,7 +133,7 @@ const SignUpPage: React.FC = () => {
                   className="form-error"
                 />
               </div>
-              
+
               <div>
                 <Field
                   name="password"
@@ -110,22 +147,22 @@ const SignUpPage: React.FC = () => {
                   className="form-error"
                 />
                 <p className="form-helper-text">
-                  Password must include at least 8 characters with uppercase, lowercase, number, and special character.
+                  Password must include at least 8 characters with uppercase,
+                  lowercase, number, and special character.
                 </p>
               </div>
             </div>
-            
+
             <div className="pt-4">
-              <button
-                type="submit"
-                className="btn btn-primary w-full"
-              >
+              <button type="submit" className="btn btn-primary w-full">
                 Create Account
               </button>
             </div>
-            
+
             <div className="text-center text-sm">
-              <span className="text-[rgb(var(--color-muted))]">Already have an account? </span>
+              <span className="text-[rgb(var(--color-muted))]">
+                Already have an account?{" "}
+              </span>
               <Link
                 to="/login"
                 className="text-[rgb(var(--color-primary))] hover:text-[rgb(var(--color-primary-dark))] font-medium"
@@ -141,4 +178,3 @@ const SignUpPage: React.FC = () => {
 };
 
 export default SignUpPage;
-   
