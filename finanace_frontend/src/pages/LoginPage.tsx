@@ -41,7 +41,7 @@ const LoginPage: React.FC = () => {
       .required("Email is required"),
     password: Yup.string()
       .required("Password is required")
-      .min(6, "Password must be at least 6 characters"),
+    
   });
   const handleSubmit = (values: LoginFormValues) => {
     mutate(values);
