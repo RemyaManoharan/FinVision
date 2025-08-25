@@ -21,7 +21,15 @@ const LoginPage: React.FC = () => {
             token: data.token,
             type: "Bearer",
           },
-          userState: data.user,
+          userState:
+          {
+            user_id: data.user.user_id,
+            name: data.user.name,
+            email: data.user.email,
+            phone_number: data.user.phone_number,
+            created_at: data.user.created_at,
+            token: data.token,
+          }
         });
         navigate("/dashboard");
       } else {

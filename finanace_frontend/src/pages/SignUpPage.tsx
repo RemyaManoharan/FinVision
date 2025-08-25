@@ -55,6 +55,7 @@ const SignUpPage: React.FC = () => {
           name: data.user.name,
           email: data.user.email,
           phone_number: data.user.phone_number,
+          token: data.token
         },
       });
       console.log("User registered", data);
