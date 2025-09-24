@@ -2,6 +2,14 @@
 
 Take charge of your finances with **Fin Vision** – a full-stack finance management app that helps you track expenses, manage budgets, and analyze financial data.
 
+## Screenshots
+
+![Welcome Page](./assets/Home.png)
+![Features](./assets/home2.png)
+![Details](./assets/home3.png)
+
+
+
 ## 🚀 Features
 - **Welcome Page** – Learn about the app, sign up, or log in.
 - **Authentication** – Secure sign up & login with JWT.
