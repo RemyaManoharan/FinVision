@@ -10,7 +10,7 @@ import {
   MdSavings,
 } from "react-icons/md";
 import StatCard from "./dashboard/StatCard";
-
+import SpendingProgressBar from "./dashboard/SpendingProgressBar";
 
 const Dashboard = () => {
   const { year, month } = useFilterStore();
@@ -77,13 +77,6 @@ const Dashboard = () => {
     return mockTrends[type];
   };
 
-  // Calculate total budget progress
-  const totalBudgetProgress =
-    (budgetData?.length ?? 0) > 0
-      ? (budgetData ?? []).reduce((acc, budget) => acc + budget.percentage, 0) /
-        (budgetData?.length ?? 1)
-      : 0;
-
   return (
     <div className="flex h-screen">
       <div className="w-64 border-r border-[rgb(var(--color-border))] bg-[rgb(var(--color-card))]">
@@ -94,7 +87,7 @@ const Dashboard = () => {
       {/* Main content - right column */}
       <div className="flex-1 overflow-auto p-6">
         {/* Dashboard content will go here */}
-        <div className="mb-8">
+        <div className=" mb-8">
           <div className="flex justify-between items-center mb-2">
             <h1 className="text-3xl font-bold">Financial Dashboard</h1>
             <button
@@ -110,53 +103,73 @@ const Dashboard = () => {
             {getMonthName(month)} {year} Overview
           </p>
         </div>
-        {dashboardData && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-            <StatCard
-              title="Total Income"
-              value={dashboardData.summary?.income || 0}
-              icon={<MdTrendingUp />}
-              trend={calculateTrend(
-                dashboardData.summary?.income || 0,
-                "income"
-              )}
-              valueColor="text-green-500"
-            />
 
-            <StatCard
-              title="Total Expenses"
-              value={dashboardData.summary?.expense || 0}
-              icon={<MdShoppingCart />}
-              trend={calculateTrend(
-                dashboardData.summary?.expense || 0,
-                "expense"
-              )}
-              valueColor="text-red-500"
-            />
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <StatCard
+            title="Total Income"
+            value={dashboardData?.summary?.income || 0}
+            icon={<MdTrendingUp />}
+            trend={calculateTrend(
+              dashboardData?.summary?.income || 0,
+              "income"
+            )}
+            valueColor="text-green-500"
+          />
 
-            <StatCard
-              title="Net Balance"
-              value={dashboardData.summary?.balance || 0}
-              icon={<MdAccountBalance />}
-              trend={calculateTrend(
-                dashboardData.summary?.balance || 0,
-                "balance"
-              )}
-              valueColor={
-                (dashboardData.summary?.balance || 0) >= 0
-                  ? "text-green-500"
-                  : "text-red-500"
-              }
-            />
+          <StatCard
+            title="Total Expenses"
+            value={dashboardData?.summary?.expense || 0}
+            icon={<MdShoppingCart />}
+            trend={calculateTrend(
+              dashboardData?.summary?.expense || 0,
+              "expense"
+            )}
+            valueColor="text-red-500"
+          />
 
-            <StatCard
-              title="Net Worth"
-              value={dashboardData.assets?.netWorth || 0}
-              icon={<MdSavings />}
-              valueColor="text-blue-500"
-            />
+          <StatCard
+            title="Net Balance"
+            value={dashboardData?.summary?.balance || 0}
+            icon={<MdAccountBalance />}
+            trend={calculateTrend(
+              dashboardData?.summary?.balance || 0,
+              "balance"
+            )}
+            valueColor={
+              (dashboardData?.summary?.balance || 0) >= 0
+                ? "text-green-500"
+                : "text-red-500"
+            }
+          />
+
+          <StatCard
+            title="Net Worth"
+            value={dashboardData?.assets?.netWorth || 0}
+            icon={<MdSavings />}
+            valueColor="text-blue-500"
+          />
+        </div>
+        {/* Spending Progress Bar */}
+        <div className="mb-8">
+          <SpendingProgressBar
+            totalIncome={dashboardData?.summary?.income || 0}
+            totalExpense={dashboardData?.summary?.expense || 0}
+            currency="DKK"
+          />
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="bg-[rgb(var(--color-card))] p-6 rounded-lg border border-[rgb(var(--color-border))] min-h-[300px] flex items-center justify-center">
+            <p className="text-[rgb(var(--color-muted))]">
+              Charts will be added here
+            </p>
           </div>
-        )}
+          <div className="bg-[rgb(var(--color-card))] p-6 rounded-lg border border-[rgb(var(--color-border))] min-h-[300px] flex items-center justify-center">
+            <p className="text-[rgb(var(--color-muted))]">
+              More charts coming soon
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
