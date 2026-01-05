@@ -11,11 +11,13 @@ import {
 } from "react-icons/md";
 import StatCard from "./dashboard/StatCard";
 import SpendingProgressBar from "./dashboard/SpendingProgressBar";
+import DateFilter from "./dashboard/DateFilter";
 
 const Dashboard = () => {
   const { year, month } = useFilterStore();
 
-  const { dashboardData, budgetData, isLoading, error, refetch } =
+  const { dashboardData, 
+     isLoading, error, refetch } =
     useDashboardDataWithStore();
 
   // Loading state
@@ -88,8 +90,13 @@ const Dashboard = () => {
       <div className="flex-1 overflow-auto p-6">
         {/* Dashboard content will go here */}
         <div className=" mb-8">
-          <div className="flex justify-between items-center mb-2">
-            <h1 className="text-3xl font-bold">Financial Dashboard</h1>
+          <div className="flex justify-between items-center mb-4">
+            <div>
+              <h1 className="text-3xl font-bold mb-1">Financial Dashboard</h1>
+              <p className="text-[rgb(var(--color-muted))]">
+                {getMonthName(month)} {year} Overview
+              </p>
+            </div>
             <button
               onClick={refetch}
               className="btn btn-outline"
@@ -99,10 +106,8 @@ const Dashboard = () => {
               {isLoading ? "Refreshing..." : "Refresh"}
             </button>
           </div>
-          <p className="text-[rgb(var(--color-muted))]">
-            {getMonthName(month)} {year} Overview
-          </p>
-        </div>
+           <DateFilter />
+          </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           <StatCard
