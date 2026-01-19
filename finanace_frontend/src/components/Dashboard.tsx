@@ -12,6 +12,7 @@ import {
 import StatCard from "./dashboard/StatCard";
 import SpendingProgressBar from "./dashboard/SpendingProgressBar";
 import DateFilter from "./dashboard/DateFilter";
+import SpendByCategoryChart from "./charts/SpendByCategoryChart";
 
 const Dashboard = () => {
   const { year, month } = useFilterStore();
@@ -67,7 +68,7 @@ const Dashboard = () => {
 
   // Helper to calculate trend (mock data for now - you can calculate real trends later)
   const calculateTrend = (
-    current: number,
+    _current: number,
     type: "income" | "expense" | "balance"
   ) => {
     // Mock trend calculation - replace with real data later
@@ -164,10 +165,15 @@ const Dashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-[rgb(var(--color-card))] p-6 rounded-lg border border-[rgb(var(--color-border))] min-h-[300px] flex items-center justify-center">
-            <p className="text-[rgb(var(--color-muted))]">
-              Charts will be added here
-            </p>
+          <div className="bg-[rgb(var(--color-card))] p-6 rounded-lg border border-[rgb(var(--color-border))]">
+            <h2 className="text-xl font-semibold mb-4">
+              Spending by Category
+            </h2>
+            <SpendByCategoryChart
+              data={dashboardData?.charts?.expenseByCategory || []}
+              currency="DKK"
+              height={400}
+            />
           </div>
           <div className="bg-[rgb(var(--color-card))] p-6 rounded-lg border border-[rgb(var(--color-border))] min-h-[300px] flex items-center justify-center">
             <p className="text-[rgb(var(--color-muted))]">
